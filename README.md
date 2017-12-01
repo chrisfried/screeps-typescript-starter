@@ -1,17 +1,17 @@
-# screeps-typescript-starter v2.0
+# screeps-typescript-starter v2.0 
 
 > Starter kit for [TypeScript](http://www.typescriptlang.org/)-based [Screeps](https://screeps.com/) AI codes.
 
------
+---
 
-**screeps-typescript-starter** is a starter kit for building [Screeps](https://screeps.com/) AIs in [TypeScript](http://www.typescriptlang.org/).
+**screeps-typescript-starter** is a starter kit for building [Screeps](https://screeps.com/) AIs in [TypeScript](http://www.typescriptlang.org/).  
 It is based on [the original starter kit](https://github.com/MarkoSulamagi/Screeps-typescript-sample-project) by [Marko Sulamägi](https://github.com/MarkoSulamagi), but with extra tools for easy compiling/deploying of scripts to the Screeps server, as well as a base framework for running tests.
 
 [Download the latest zipped copy here.](https://github.com/screepers/screeps-typescript-starter/archive/master.zip)
 
 ## What's new
 
-* [@bonzaiferroni](https://github.com/bonzaiferroni) has put out some really useful guides to get started with TypeScript development on Screeps. Go read them! ([Guide #1](https://screepsworld.com/2017/07/typescreeps-getting-started-with-ts-in-screeps/), [Guide #2](https://screepsworld.com/2017/07/typescreeps-installing-everything-you-need/))
+* [@bonzaiferroni](https://github.com/bonzaiferroni) has put out some really useful guides to get started with TypeScript development on Screeps. Go read them! \([Guide \#1](https://screepsworld.com/2017/07/typescreeps-getting-started-with-ts-in-screeps/), [Guide \#2](https://screepsworld.com/2017/07/typescreeps-installing-everything-you-need/)\)
 * We've consolidated all of our guides into the [wiki page](https://github.com/screepers/screeps-typescript-starter/wiki). This README will be simplified to include the essentials to get you up and running. Feel free to contribute to the wiki as well!
 
 ---
@@ -28,28 +28,28 @@ It is based on [the original starter kit](https://github.com/MarkoSulamagi/Scree
 
 ## Features
 
-- Automated deploy to public and private Screeps servers
-- Live reload compiling of typescript code
-- Highly configurable environment with sane defaults
-- Pre-configured linting rules customized for screeps
-- Typescript Screeps typings
-- Logger which links with source code and git repo
-- Screeps profiler
-- "Snippets" directory for code you want to save, but don't want compiled or linted
-- Modest starter code to get you started, but not hold your hand
+* Automated deploy to public and private Screeps servers
+* Live reload compiling of typescript code
+* Highly configurable environment with sane defaults
+* Pre-configured linting rules customized for screeps
+* Typescript Screeps typings
+* Logger which links with source code and git repo
+* Screeps profiler
+* "Snippets" directory for code you want to save, but don't want compiled or linted
+* Modest starter code to get you started, but not hold your hand
 
 ## Quick start
 
 By far, the easiest and quickest way to get started with TypeScript development on Screeps is to follow @bonzaiferroni's guides on Screeps World. Go read them!
 
-* https://screepsworld.com/2017/07/typescreeps-getting-started-with-ts-in-screeps/
-* https://screepsworld.com/2017/07/typescreeps-installing-everything-you-need/
+* [https://screepsworld.com/2017/07/typescreeps-getting-started-with-ts-in-screeps/](https://screepsworld.com/2017/07/typescreeps-getting-started-with-ts-in-screeps/)
+* [https://screepsworld.com/2017/07/typescreeps-installing-everything-you-need/](https://screepsworld.com/2017/07/typescreeps-installing-everything-you-need/)
 
 ### Requirements
 
 We'll assume you have already downloaded/cloned the starter kit.
 
-* [Node.js](https://nodejs.org/en/) (latest LTS is recommended)
+* [Node.js](https://nodejs.org/en/) \(latest LTS is recommended\)
 * [Yarn](https://yarnpkg.com/en/) - Optional. You can use `npm` if you don't want to, but this is for your own sanity.
 
 > **Why Yarn?** Yarn has a stronger dependency tree, supports lockfiles, and fixes most of the issues pre-`npm@5`. It also has a host of unique features as described on [their website](https://yarnpkg.com/en/), and is entirely compatible with `npm`.
@@ -121,3 +121,4 @@ Issues, Pull Requests, and Wiki contributions are welcome! Please read the [Cont
 ## Special thanks
 
 [Marko Sulamägi](https://github.com/MarkoSulamagi), for the original [Screeps/TypeScript sample project](https://github.com/MarkoSulamagi/Screeps-typescript-sample-project).
+
