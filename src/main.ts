@@ -23,50 +23,90 @@ export const loop = ErrorMapper.wrapLoop(() => {
   const defenders = _.filter(Game.creeps, (creep) => creep.memory.role === 'defender');
   const fixers = _.filter(Game.creeps, (creep) => creep.memory.role === 'fixer');
 
-  if (couriers.length < 1) {
-    const newName = 'Courier' + Game.time;
-    Game.spawns['The Chateau'].spawnCreep([WORK, CARRY, MOVE], newName,
+  const courierBuilds = [
+    [WORK, WORK, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
+    [WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
+    [WORK, WORK, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
+    [WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE],
+    [WORK, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE],
+    [WORK, WORK, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE],
+    [WORK, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE],
+    [WORK, CARRY, CARRY, MOVE, MOVE, MOVE],
+    [WORK, CARRY, MOVE, MOVE],
+    [WORK, CARRY, MOVE]
+  ];
+
+  const harvestorBuilds = [
+    [WORK, WORK, WORK, WORK, WORK, WORK, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
+    [WORK, WORK, WORK, WORK, WORK, MOVE, MOVE, MOVE, MOVE, MOVE],
+    [WORK, WORK, WORK, WORK, MOVE, MOVE, MOVE, MOVE],
+    [WORK, WORK, WORK, MOVE, MOVE, MOVE],
+    [WORK, WORK, MOVE, MOVE]
+  ];
+
+  const workerBuilds = [
+    [WORK, WORK, WORK, WORK, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
+    [WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
+    [WORK, WORK, WORK, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE],
+    [WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE, MOVE],
+    [WORK, WORK, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE],
+    [WORK, WORK, CARRY, MOVE, MOVE, MOVE],
+    [WORK, CARRY, MOVE, MOVE],
+    [WORK, CARRY, MOVE]
+  ];
+
+  const defenderBuilds = [
+    [WORK, WORK, WORK, WORK, WORK, WORK, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
+    [WORK, WORK, WORK, WORK, WORK, MOVE, MOVE, MOVE, MOVE, MOVE],
+    [WORK, WORK, WORK, WORK, MOVE, MOVE, MOVE, MOVE],
+    [WORK, WORK, WORK, MOVE, MOVE, MOVE],
+    [WORK, WORK, MOVE, MOVE],
+    [WORK, MOVE]
+  ];
+
+  const spawnCourier = (name: string) => courierBuilds.forEach((build) => {
+    Game.spawns['The Chateau'].spawnCreep(build, name,
       { memory: { role: 'courier' } });
-  } else if (harvesters.length < 1) {
-    const newName = 'Harvester' + Game.time;
-    Game.spawns['The Chateau'].spawnCreep([WORK, WORK, MOVE], newName,
+  });
+
+  const spawnHarvester = (name: string) => harvestorBuilds.forEach((build) => {
+    Game.spawns['The Chateau'].spawnCreep(build, name,
       { memory: { role: 'harvester' } });
-  } else if (upgraders.length < 1) {
-    const newName = 'Upgrader' + Game.time;
-    Game.spawns['The Chateau'].spawnCreep([WORK, CARRY, MOVE], newName,
-      { memory: { role: 'upgrader' } });
-  } else if (fixers.length < 1) {
-    const newName = 'Fixer' + Game.time;
-    Game.spawns['The Chateau'].spawnCreep([WORK, CARRY, MOVE], newName,
-      { memory: { role: 'fixer' } });
-  } else if (builders.length < 1) {
-    const newName = 'Builder' + Game.time;
-    Game.spawns['The Chateau'].spawnCreep([WORK, CARRY, MOVE], newName,
-      { memory: { role: 'builder' } });
-  } else if (harvesters.length < 5) {
-    const newName = 'Harvester' + Game.time;
-    Game.spawns['The Chateau'].spawnCreep([WORK, WORK, MOVE], newName,
-      { memory: { role: 'harvester' } });
-  } else if (couriers.length < 6) {
-    const newName = 'Courier' + Game.time;
-    Game.spawns['The Chateau'].spawnCreep([WORK, CARRY, MOVE], newName,
-      { memory: { role: 'courier' } });
-  } else if (upgraders.length < 3) {
-    const newName = 'Upgrader' + Game.time;
-    Game.spawns['The Chateau'].spawnCreep([WORK, CARRY, MOVE], newName,
-      { memory: { role: 'upgrader' } });
-  } else if (builders.length < 3) {
-    const newName = 'Builder' + Game.time;
-    Game.spawns['The Chateau'].spawnCreep([WORK, CARRY, MOVE], newName,
-      { memory: { role: 'builder' } });
-  } else if (fixers.length < 2) {
-    const newName = 'Fixer' + Game.time;
-    Game.spawns['The Chateau'].spawnCreep([WORK, CARRY, MOVE], newName,
-      { memory: { role: 'fixer' } });
-  } else if (defenders.length < 0) {
-    const newName = 'Defender' + Game.time;
-    Game.spawns['The Chateau'].spawnCreep([WORK, WORK, MOVE, MOVE], newName,
+  });
+
+  const spawnWorker = (name: string, role: string) => workerBuilds.forEach((build) => {
+    Game.spawns['The Chateau'].spawnCreep([WORK, CARRY, MOVE], name,
+      { memory: { role } });
+  });
+
+  const spawnDefender = (name: string) => defenderBuilds.forEach((build) => {
+    Game.spawns['The Chateau'].spawnCreep(build, name,
       { memory: { role: 'defender' } });
+  });
+
+  if (couriers.length < 1) {
+    spawnCourier('Courier' + Game.time);
+  } else if (harvesters.length < 1) {
+    spawnHarvester('Harvester' + Game.time);
+  } else if (upgraders.length < 1) {
+    spawnWorker('Upgrader' + Game.time, 'upgrader');
+  } else if (fixers.length < 1) {
+    spawnWorker('Fixer' + Game.time, 'fixer');
+  } else if (builders.length < 1) {
+    spawnWorker('Builder' + Game.time, 'builder');
+  } else if (harvesters.length < 5) {
+    spawnHarvester('Harvester' + Game.time);
+  } else if (couriers.length < 5) {
+    spawnCourier('Courier' + Game.time);
+  } else if (upgraders.length < 3) {
+    spawnWorker('Upgrader' + Game.time, 'upgrader');
+  } else if (builders.length < 3) {
+    spawnWorker('Builder' + Game.time, 'builder');
+  } else if (fixers.length < 3) {
+    spawnWorker('Fixer' + Game.time, 'fixer');
+  } else if (defenders.length < 0) {
+    spawnDefender('Defender' + Game.time);
+    const newName = 'Defender' + Game.time;
   }
 
   if (Game.spawns['The Chateau'].spawning) {

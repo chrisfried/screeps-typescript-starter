@@ -1,5 +1,6 @@
 import { getEnergy } from 'getEnergy';
 import { roleBuilder } from 'role.builder';
+import { roleUpgrader } from 'role.upgrader';
 
 const roleCourier = {
 
@@ -13,7 +14,7 @@ const roleCourier = {
     });
     if (!targets.length) {
       roleBuilder.run(creep);
-    } else if (creep.carry.energy >= 50) {
+    } else if (creep.carry.energy === creep.carryCapacity) {
       const target = creep.pos.findClosestByRange(targets);
       if (creep.transfer(target, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
         creep.moveTo(target, { visualizePathStyle: { stroke: '#00ffaa' } });

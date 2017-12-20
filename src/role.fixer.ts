@@ -13,21 +13,18 @@ const roleFixer = {
       creep.memory.fixing = true;
     }
 
-    if (creep.memory.fixing) {
-      const targets = creep.room.find(FIND_STRUCTURES, {
-        filter: (object) => object.hits < object.hitsMax
-      });
-      if (targets.length > 0) {
-        targets.sort((a, b) => a.hits - b.hits);
-        if (creep.repair(targets[0]) === ERR_NOT_IN_RANGE && targets[1]
-          && creep.repair(targets[1]) === ERR_NOT_IN_RANGE) {
-          creep.moveTo(targets[0], { visualizePathStyle: { stroke: '#ff00aa' } });
-        } else if (creep.repair(targets[0]) === OK) {
-          creep.say('🔧');
-        }
-      } else {
-        roleCourier.run(creep);
+    const targets = creep.room.find(FIND_STRUCTURES, {
+      filter: (object) => object.hits < object.hitsMax
+    });
+    if (creep.memory.fixing && targets.length > 0) {
+      targets.sort((a, b) => a.hits - b.hits);
+      if (creep.repair(targets[0]) === OK || creep.repair(creep.pos.findClosestByRange(targets)) === OK) {
+        creep.say('🔧');
+      } else if (creep.repair(targets[0]) === ERR_NOT_IN_RANGE) {
+        creep.moveTo(targets[0], { visualizePathStyle: { stroke: '#ff00aa' } });
       }
+    } else if (creep.memory.fixing) {
+      roleCourier.run(creep);
     } else {
       getEnergy.go(creep);
     }

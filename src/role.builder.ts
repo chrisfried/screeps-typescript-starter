@@ -8,21 +8,21 @@ const roleBuilder = {
     let extension;
     let container;
     let target;
-    extension = creep.pos.findClosestByRange(FIND_CONSTRUCTION_SITES, {
-      filter: (i) => i.structureType === 'extension'
-    });
-    if (!extension) {
-      swampRoad = creep.pos.findClosestByRange(FIND_CONSTRUCTION_SITES, {
-        filter: (i) => i.structureType === 'road'
-                    && Game.map.getTerrainAt(i.pos.x, i.pos.y, creep.room.name) === 'swamp'
-      });
+    // extension = creep.pos.findClosestByRange(FIND_CONSTRUCTION_SITES, {
+    //   filter: (i) => i.structureType === 'extension'
+    // });
+    // if (!extension) {
+    //   swampRoad = creep.pos.findClosestByRange(FIND_CONSTRUCTION_SITES, {
+    //     filter: (i) => i.structureType === 'road'
+    //       && Game.map.getTerrainAt(i.pos.x, i.pos.y, creep.room.name) === 'swamp'
+    //   });
 
-      if (!swampRoad) {
-        container = creep.pos.findClosestByRange(FIND_CONSTRUCTION_SITES, {
-          filter: (i) => i.structureType === 'container'
-        });
-      }
-    }
+    //   if (!swampRoad) {
+    //     container = creep.pos.findClosestByRange(FIND_CONSTRUCTION_SITES, {
+    //       filter: (i) => i.structureType === 'container'
+    //     });
+    //   }
+    // }
     if (swampRoad) {
       target = swampRoad;
     } else if (extension) {
@@ -33,10 +33,12 @@ const roleBuilder = {
       target = creep.pos.findClosestByRange(FIND_CONSTRUCTION_SITES);
     }
     getEnergy.pickup(creep);
-    if (creep.carry.energy >= 5 && target && creep.build(target) === OK) {
+    let workParts = 0;
+    creep.body.forEach((part) => { if (part.type === 'work') { workParts++; } });
+    if (creep.carry.energy >= 5 * workParts && target && creep.build(target) === OK) {
       creep.say('🚧');
     }
-    if (creep.memory.building && creep.carry.energy < 5) {
+    if (creep.memory.building && creep.carry.energy < 5 * workParts) {
       creep.memory.building = false;
     }
     if (!creep.memory.building && creep.carry.energy === creep.carryCapacity) {
