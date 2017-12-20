@@ -33,10 +33,10 @@ const roleBuilder = {
       target = creep.pos.findClosestByRange(FIND_CONSTRUCTION_SITES);
     }
     getEnergy.pickup(creep);
-    if (creep.carry.energy >= 10 && target && creep.build(target) === OK) {
+    if (creep.carry.energy >= 5 && target && creep.build(target) === OK) {
       creep.say('🚧');
     }
-    if (creep.memory.building && creep.carry.energy < 10) {
+    if (creep.memory.building && creep.carry.energy < 5) {
       creep.memory.building = false;
     }
     if (!creep.memory.building && creep.carry.energy === creep.carryCapacity) {
