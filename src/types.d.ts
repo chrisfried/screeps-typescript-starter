@@ -6,6 +6,7 @@ interface Creep {
     role?: string,
     building?: boolean,
     fixing?: boolean,
-    upgrading?: boolean
+    upgrading?: boolean,
+    towerCooldown?: boolean
   }
 }

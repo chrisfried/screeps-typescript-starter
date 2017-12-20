@@ -1,5 +1,5 @@
-import { getEnergy } from 'getEnergy';
 import { roleUpgrader } from 'role.upgrader';
+import { getEnergy } from 'util.energy';
 
 const roleBuilder = {
 

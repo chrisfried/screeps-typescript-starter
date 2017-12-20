@@ -1,5 +1,5 @@
-import { getEnergy } from 'getEnergy';
 import { roleCourier } from 'role.courier';
+import { getEnergy } from 'util.energy';
 
 const roleFixer = {
 

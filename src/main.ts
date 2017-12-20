@@ -1,3 +1,4 @@
+import { controlTower } from 'control.tower';
 import { roleBuilder } from 'role.builder';
 import { roleCourier } from 'role.courier';
 import { roleFixer } from 'role.fixer';
@@ -15,6 +16,12 @@ export const loop = ErrorMapper.wrapLoop(() => {
       delete Memory.creeps[name];
     }
   }
+
+  const towers = Game.spawns['The Chateau'].room.find(FIND_STRUCTURES, {
+    filter: (structure) => structure.structureType === STRUCTURE_TOWER
+  }) as StructureTower[];
+
+  towers.forEach((tower) => controlTower.run(tower));
 
   const harvesters = _.filter(Game.creeps, (creep) => creep.memory.role === 'harvester');
   const upgraders = _.filter(Game.creeps, (creep) => creep.memory.role === 'upgrader');
@@ -56,12 +63,15 @@ export const loop = ErrorMapper.wrapLoop(() => {
   ];
 
   const defenderBuilds = [
-    [WORK, WORK, WORK, WORK, WORK, WORK, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
-    [WORK, WORK, WORK, WORK, WORK, MOVE, MOVE, MOVE, MOVE, MOVE],
-    [WORK, WORK, WORK, WORK, MOVE, MOVE, MOVE, MOVE],
-    [WORK, WORK, WORK, MOVE, MOVE, MOVE],
-    [WORK, WORK, MOVE, MOVE],
-    [WORK, MOVE]
+    [ATTACK, ATTACK, ATTACK, ATTACK, ATTACK, ATTACK, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
+    [ATTACK, ATTACK, ATTACK, ATTACK, ATTACK, MOVE, MOVE, MOVE, MOVE, MOVE],
+    [ATTACK, ATTACK, ATTACK, ATTACK, MOVE, MOVE, MOVE, MOVE],
+    [ATTACK, ATTACK, ATTACK, MOVE, MOVE, MOVE],
+    [ATTACK, ATTACK, MOVE, MOVE, MOVE, TOUGH],
+    [ATTACK, ATTACK, MOVE, MOVE],
+    [ATTACK, MOVE, MOVE, MOVE, TOUGH, TOUGH],
+    [ATTACK, MOVE, MOVE, TOUGH],
+    [ATTACK, MOVE]
   ];
 
   const spawnCourier = (name: string) => courierBuilds.forEach((build) => {
@@ -75,7 +85,7 @@ export const loop = ErrorMapper.wrapLoop(() => {
   });
 
   const spawnWorker = (name: string, role: string) => workerBuilds.forEach((build) => {
-    Game.spawns['The Chateau'].spawnCreep([WORK, CARRY, MOVE], name,
+    Game.spawns['The Chateau'].spawnCreep(build, name,
       { memory: { role } });
   });
 
