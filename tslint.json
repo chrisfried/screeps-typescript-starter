@@ -8,6 +8,8 @@
     "member-ordering": [false],
     "no-console": [false],
     "no-namespace": [true, "allow-declarations"],
+    "quotemark": [true, "single"],
+    "no-string-literal": false,
     "trailing-comma": [true, {"multiline": "never", "singleline": "never"}],
     "variable-name": [
       true,
