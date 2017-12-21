@@ -4,6 +4,7 @@ import { roleCourier } from 'role.courier';
 import { roleFixer } from 'role.fixer';
 import { roleHarvester } from 'role.harvester';
 import { roleUpgrader } from 'role.upgrader';
+import { roleWanderer } from 'role.wanderer';
 
 import { ErrorMapper } from 'utils/ErrorMapper';
 
@@ -28,6 +29,7 @@ export const loop = ErrorMapper.wrapLoop(() => {
   const builders = _.filter(Game.creeps, (creep) => creep.memory.role === 'builder');
   const couriers = _.filter(Game.creeps, (creep) => creep.memory.role === 'courier');
   const defenders = _.filter(Game.creeps, (creep) => creep.memory.role === 'defender');
+  const wanderers = _.filter(Game.creeps, (creep) => creep.memory.role === 'wanderer');
   const fixers = _.filter(Game.creeps, (creep) => creep.memory.role === 'fixer');
 
   const courierBuilds = [
@@ -74,6 +76,25 @@ export const loop = ErrorMapper.wrapLoop(() => {
     [ATTACK, MOVE]
   ];
 
+  const wandererBuilds = [
+    [TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH,
+      MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
+    [TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH,
+      MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
+    [TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
+    [TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
+    [TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
+    [TOUGH, TOUGH, TOUGH, TOUGH, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
+    [TOUGH, TOUGH, TOUGH, TOUGH, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
+    [TOUGH, TOUGH, TOUGH, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
+    [TOUGH, TOUGH, TOUGH, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
+    [TOUGH, TOUGH, MOVE, MOVE, MOVE, MOVE, MOVE],
+    [TOUGH, TOUGH, MOVE, MOVE, MOVE, MOVE],
+    [TOUGH, MOVE, MOVE, MOVE],
+    [TOUGH, MOVE, MOVE],
+    [MOVE]
+  ];
+
   const spawnCourier = (name: string) => courierBuilds.forEach((build) => {
     Game.spawns['The Chateau'].spawnCreep(build, name,
       { memory: { role: 'courier' } });
@@ -92,6 +113,11 @@ export const loop = ErrorMapper.wrapLoop(() => {
   const spawnDefender = (name: string) => defenderBuilds.forEach((build) => {
     Game.spawns['The Chateau'].spawnCreep(build, name,
       { memory: { role: 'defender' } });
+  });
+
+  const spawnWanderer = (name: string) => wandererBuilds.forEach((build) => {
+    Game.spawns['The Chateau'].spawnCreep(build, name,
+      { memory: { role: 'wanderer' } });
   });
 
   if (couriers.length < 1) {
@@ -116,7 +142,8 @@ export const loop = ErrorMapper.wrapLoop(() => {
     spawnWorker('Fixer' + Game.time, 'fixer');
   } else if (defenders.length < 0) {
     spawnDefender('Defender' + Game.time);
-    const newName = 'Defender' + Game.time;
+  } else if (wanderers.length < 5) {
+    spawnWanderer('Wanderer' + Game.time);
   }
 
   if (Game.spawns['The Chateau'].spawning) {
@@ -130,6 +157,9 @@ export const loop = ErrorMapper.wrapLoop(() => {
 
   for (const name in Game.creeps) {
     const creep = Game.creeps[name];
+    if (creep.memory.role === 'wanderer') {
+      roleWanderer.run(creep);
+    }
     if (creep.memory.role === 'harvester') {
       roleHarvester.run(creep);
     }
