@@ -12,18 +12,31 @@ const roleCourier = {
             && structure.energy < structure.energyCapacity;
       }
     });
-    if (!targets.length) {
-      const towers = creep.room.find(FIND_STRUCTURES, {
-        filter: (structure) => structure.structureType === STRUCTURE_TOWER
-      });
+    const towers = creep.room.find(FIND_STRUCTURES, {
+      filter: (structure) => structure.structureType === STRUCTURE_TOWER
+    });
+    if (!targets.length || creep.room.energyAvailable >= 600) {
       const weakTowers = creep.room.find(FIND_STRUCTURES, {
         filter: (structure) => structure.structureType === STRUCTURE_TOWER
-             && structure.energy < structure.energyCapacity / 3
+              && structure.energy < structure.energyCapacity / 5
       });
-      if (!creep.memory.towerCooldown || weakTowers.length) {
+      if (weakTowers.length > towers.length / 2) {
         creep.memory.towerCooldown = false;
+      }
+      if (!creep.memory.towerCooldown || creep.pos.findClosestByRange(FIND_HOSTILE_CREEPS)) {
         targets = towers;
       }
+    }
+    if (!targets.length) {
+      targets = creep.room.find(FIND_STRUCTURES, {
+        filter: (structure) => {
+          return (structure.structureType === STRUCTURE_STORAGE)
+              && structure.store.energy < structure.storeCapacity;
+        }
+      });
+    }
+    if (!targets.length) {
+      targets = towers;
     }
     if (!targets.length) {
       roleBuilder.run(creep);
@@ -32,7 +45,7 @@ const roleCourier = {
       if (creep.transfer(target, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
         creep.moveTo(target, { visualizePathStyle: { stroke: '#00ffaa' } });
       }
-      if (target.structureType === STRUCTURE_TOWER && target.energy > target.energyCapacity * .95) {
+      if (target.structureType === STRUCTURE_TOWER && target.energy > target.energyCapacity * .5) {
         creep.memory.towerCooldown = true;
       }
     } else {

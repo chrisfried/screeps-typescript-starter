@@ -66,13 +66,26 @@ export const loop = ErrorMapper.wrapLoop(() => {
 
   const defenderBuilds = [
     [ATTACK, ATTACK, ATTACK, ATTACK, ATTACK, ATTACK, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
+    [TOUGH, ATTACK, ATTACK, ATTACK, ATTACK, ATTACK, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
+    [TOUGH, TOUGH, ATTACK, ATTACK, ATTACK, ATTACK, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
+    [TOUGH, TOUGH, TOUGH, ATTACK, ATTACK, ATTACK, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
+    [TOUGH, TOUGH, TOUGH, TOUGH, ATTACK, ATTACK, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
+    [TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, ATTACK, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
     [ATTACK, ATTACK, ATTACK, ATTACK, ATTACK, MOVE, MOVE, MOVE, MOVE, MOVE],
+    [TOUGH, ATTACK, ATTACK, ATTACK, ATTACK, MOVE, MOVE, MOVE, MOVE, MOVE],
+    [TOUGH, TOUGH, ATTACK, ATTACK, ATTACK, MOVE, MOVE, MOVE, MOVE, MOVE],
+    [TOUGH, TOUGH, TOUGH, ATTACK, ATTACK, MOVE, MOVE, MOVE, MOVE, MOVE],
+    [TOUGH, TOUGH, TOUGH, TOUGH, ATTACK, MOVE, MOVE, MOVE, MOVE, MOVE],
     [ATTACK, ATTACK, ATTACK, ATTACK, MOVE, MOVE, MOVE, MOVE],
+    [TOUGH, ATTACK, ATTACK, ATTACK, MOVE, MOVE, MOVE, MOVE],
+    [TOUGH, TOUGH, ATTACK, ATTACK, MOVE, MOVE, MOVE, MOVE],
+    [TOUGH, TOUGH, TOUGH, ATTACK, MOVE, MOVE, MOVE, MOVE],
     [ATTACK, ATTACK, ATTACK, MOVE, MOVE, MOVE],
-    [ATTACK, ATTACK, MOVE, MOVE, MOVE, TOUGH],
+    [TOUGH, ATTACK, ATTACK, MOVE, MOVE, MOVE],
+    [TOUGH, TOUGH, ATTACK, MOVE, MOVE, MOVE],
     [ATTACK, ATTACK, MOVE, MOVE],
-    [ATTACK, MOVE, MOVE, MOVE, TOUGH, TOUGH],
-    [ATTACK, MOVE, MOVE, TOUGH],
+    [TOUGH, TOUGH, ATTACK, MOVE, MOVE, MOVE],
+    [TOUGH, ATTACK, MOVE, MOVE],
     [ATTACK, MOVE]
   ];
 
@@ -130,19 +143,21 @@ export const loop = ErrorMapper.wrapLoop(() => {
     spawnWorker('Fixer' + Game.time, 'fixer');
   } else if (builders.length < 1) {
     spawnWorker('Builder' + Game.time, 'builder');
+  } else if (couriers.length < 2) {
+    spawnCourier('Courier' + Game.time);
   } else if (harvesters.length < 5) {
     spawnHarvester('Harvester' + Game.time);
   } else if (couriers.length < 5) {
     spawnCourier('Courier' + Game.time);
-  } else if (upgraders.length < 3) {
-    spawnWorker('Upgrader' + Game.time, 'upgrader');
   } else if (builders.length < 3) {
     spawnWorker('Builder' + Game.time, 'builder');
+  } else if (upgraders.length < 3) {
+    spawnWorker('Upgrader' + Game.time, 'upgrader');
   } else if (fixers.length < 3) {
     spawnWorker('Fixer' + Game.time, 'fixer');
   } else if (defenders.length < 0) {
     spawnDefender('Defender' + Game.time);
-  } else if (wanderers.length < 5) {
+  } else if (wanderers.length < 0) {
     spawnWanderer('Wanderer' + Game.time);
   }
 
